@@ -1,16 +1,26 @@
 import React from 'react'
+import { number, node } from 'prop-types';
 
 import './Column.css'
 
-const column = (props) => {
-    const { width = 15 } = props
+const Column = ({ width, children }) => {
     return (
         <div className="column" style={{
             width: width + '%'
         }}>
-            {props.children}
+            {children}
         </div>
     )
-}
+};
 
-export default column
+Column.propTypes = {
+    width: number,
+    children: node,
+};
+
+Column.defaultProps = {
+    width: 15,
+    children: null,
+};
+
+export default Column
