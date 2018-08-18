@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-export function getTypes() {
-    return axios.get(`http://pokeapi.salestock.net/api/v2/type/`);
+export function getTypes(filters = 'type') {
+    return axios.get(`http://pokeapi.salestock.net/api/v2/${filters}/`);
 }
 
 export function getType(type) {

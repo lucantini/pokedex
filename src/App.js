@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
-import { capitalize } from 'lodash';
+import { connect } from 'react-redux';
+import capitalize from 'lodash/capitalize';
 import './App.css';
 
 import Button from './components/Button/Button';
 
-import { getType, getTypes } from './controllers/pokeControl';
+import { getType } from './controllers/pokeControl';
+import { getFilters } from './containers/actions/filtersActions';
 
 class App extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
 
         this.state = {
             pokes: [],
@@ -19,13 +21,7 @@ class App extends Component {
     }
 
     componentDidMount() {
-        getTypes().then(resp => {
-            this.setState({ types: resp.data.results})
-        }).catch((e) => {
-            throw e;
-        }).finally(() => {
-            this.setState({ isLoading: false })
-        });
+        this.props.getFilters();
     }
 
     getType(type) {
@@ -40,7 +36,7 @@ class App extends Component {
     }
 
     renderTypeButtons() {
-        return this.state.types.map(type => (
+        return this.props.filters.map(type => (
             <Button
                 onClick={() => this.getType(type.name)}
                 isLoading={this.state.isLoading}
@@ -68,4 +64,12 @@ class App extends Component {
     }
 }
 
-export default App;
+const mapDispatchToProps = dispatch => ({
+    getFilters: filter => dispatch(getFilters(filter))
+});
+
+const mapStateToProps = ({ filtersReducer }) => ({
+    filters: filtersReducer.filters,
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
