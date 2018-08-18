@@ -52,7 +52,7 @@ class App extends Component {
 
     renderPokes() {
         return this.state.pokes.map(pk => (
-            <div key={pk.slot}>
+            <div key={pk.pokemon.name}>
                 {pk.pokemon.name}
             </div>
         ))
