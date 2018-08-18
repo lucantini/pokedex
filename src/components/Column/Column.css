@@ -1,0 +1,12 @@
+.column {
+    background-color: #ccc;
+    margin-right: 1%;
+}
+
+.column button {
+    display: block;
+    width: 100%;
+    background-color: white;
+    padding: 5px;
+    border-radius: 4px;
+}
