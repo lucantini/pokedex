@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import { capitalize } from 'lodash';
+import capitalize from 'lodash/capitalize';
+import sortBy from 'lodash/sortBy';
 import './App.css';
 
 import Button from './components/Button/Button';
+import Column from './components/Column/Column';
 
 import { getType, getTypes } from './controllers/pokeControl';
 
@@ -40,29 +42,45 @@ class App extends Component {
     }
 
     renderTypeButtons() {
-        return this.state.types.map(type => (
-            <Button
-                onClick={() => this.getType(type.name)}
-                isLoading={this.state.isLoading}
-            >
-                {capitalize(type.name)}
-            </Button>
+        const orderedTypes = sortBy(this.state.types, (type) => type.name)
+        return orderedTypes
+            .map(type => (
+                <Button
+                    key={type.name}
+                    onClick={() => this.getType(type.name)}
+                    isLoading={this.state.isLoading}
+                >
+                    {capitalize(type.name)}
+                </Button>
         ))
     }
 
     renderPokes() {
-        return this.state.pokes.map(pk => (
-            <div key={pk.pokemon.name}>
-                {pk.pokemon.name}
-            </div>
+        const orderedPokes = sortBy(this.state.pokes, (pk) => pk.pokemon.name)
+        return orderedPokes.map(pk => (
+            <Button
+                key={pk.pokemon.name}
+                onClick={() => console.log('pokemon clicked!')}
+                isLoading={this.state.isLoading}
+            >
+                {capitalize(pk.pokemon.name)}
+            </Button>
         ))
     }
 
     render() {
         return (
             <div className="app">
-                {this.renderTypeButtons()}
-                {this.renderPokes()}
+                <Column>
+                    {this.renderTypeButtons()}
+                </Column>
+                <Column>
+                    {this.renderPokes()}
+                </Column>
+                <Column width={70}>
+                    {/* <Poke /> goes here (?) */}
+                    <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png" alt=""/>
+                </Column>
             </div>
         );
     }
